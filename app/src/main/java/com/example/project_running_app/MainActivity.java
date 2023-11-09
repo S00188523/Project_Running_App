@@ -3,6 +3,7 @@ package com.example.project_running_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +15,12 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView stepsTextView, timerTextView;
     private Button startButton, stopButton, resetButton, showRunButton;
-    private int stepsCount = 0, secondsCount = 0;
+    private int stepsCount = 0;
+    private long secondsCount = 0;
+
     private boolean isRunning = false;
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(Looper.getMainLooper());
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private void showRunDetails() {
         Intent intent = new Intent(MainActivity.this, RunDetailsActivity.class);
         intent.putExtra("stepsCount", stepsCount);
-        intent.putExtra("secondsCount", secondsCount);
+        intent.putExtra("secondsCount", (long) secondsCount);
         startActivity(intent);
     }
 
@@ -99,7 +103,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void updateDisplay() {
-        stepsTextView.setText("Steps: " + stepsCount);
-        timerTextView.setText("Time: " + secondsCount + " seconds");
+        StringBuilder stepsBuilder = new StringBuilder("Steps: ");
+        stepsBuilder.append(stepsCount);
+
+        StringBuilder timeBuilder = new StringBuilder("Time: ");
+        timeBuilder.append(secondsCount).append(" seconds");
+
+        stepsTextView.setText(stepsBuilder.toString());
+        timerTextView.setText(timeBuilder.toString());
     }
+
 }

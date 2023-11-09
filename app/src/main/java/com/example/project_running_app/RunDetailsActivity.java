@@ -1,6 +1,7 @@
 package com.example.project_running_app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +30,10 @@ public class RunDetailsActivity extends AppCompatActivity {
 
         //  data from the previous activity
         int stepsCount = getIntent().getIntExtra("stepsCount", 0);
-        long secondsCount = getIntent().getLongExtra("secondsCount", 0);
+        long secondsCount = (int) getIntent().getLongExtra("secondsCount", 0);
+
+        Log.d("RunDetailsActivity", "Steps Count: " + stepsCount);
+        Log.d("RunDetailsActivity", "Seconds Count: " + secondsCount);
 
         // Calculate run details
         double meters = stepsCount * 0.8;
